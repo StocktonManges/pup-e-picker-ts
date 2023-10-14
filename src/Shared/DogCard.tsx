@@ -1,5 +1,6 @@
 import { Dog } from "../types";
 import { FavoriteButton } from "./FavoriteButton";
+import { ModifyButton } from "./ModifyButton";
 import { TrashButton } from "./TrashButton";
 import { UnfavoriteButton } from "./UnfavoriteButton";
 
@@ -10,12 +11,14 @@ export const DogCard = ({
   onEmptyHeartClick,
   onHeartClick,
   isLoading,
+  onModifyDogClick,
 }: {
   dog: Dog;
   onTrashIconClick: () => void;
   onEmptyHeartClick: () => void;
   onHeartClick: () => void;
   isLoading: boolean;
+  onModifyDogClick: () => void;
 }) => {
   return (
     <div className="dog-card">
@@ -36,7 +39,13 @@ export const DogCard = ({
         />
       )}
 
-      {/* Use this button to delete a puppy :( */}
+      <ModifyButton
+        onClick={() => {
+          onModifyDogClick();
+        }}
+        disabled={isLoading}
+      />
+
       <TrashButton
         onClick={() => {
           onTrashIconClick();

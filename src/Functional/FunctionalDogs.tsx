@@ -1,92 +1,95 @@
+import { useState } from "react";
 import { DogCard } from "../Shared/DogCard";
-import { dogPictures } from "../dog-pictures";
+import { Requests } from "../api";
+import { FilterOptions, Dog, SetIsLoading, GetAllDogsRequest } from "../types";
+import { FunctionalModifyDogModal } from "./FunctionalModifyDogModal";
 
-// Right now these dogs are constant, but in reality we should be getting these from our server
-export const FunctionalDogs = () => {
+export const FunctionalDogs = ({
+  allDogs,
+  refetchAllDogs,
+  activeFilter,
+  isLoading,
+  setIsLoading,
+}: {
+  allDogs: Dog[] | null;
+  refetchAllDogs: GetAllDogsRequest;
+  activeFilter: FilterOptions;
+  isLoading: boolean;
+  setIsLoading: SetIsLoading;
+}) => {
+  const [dogToModify, setDogToModify] = useState<Dog | null>(null);
+  const shouldDisplay = (dog: Dog): boolean => {
+    if (activeFilter === "fav dogs") {
+      return dog.isFavorite;
+    } else if (activeFilter === "unfav dogs") {
+      return !dog.isFavorite;
+    } else if (activeFilter === "all dogs") {
+      return true;
+    }
+    return false;
+  };
+  const compare = (a: Dog, b: Dog) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  };
+
   return (
-    //  the "<> </>"" are called react fragments, it's like adding all the html inside
-    // without adding an actual html element
     <>
-      <DogCard
-        dog={{
-          id: 1,
-          image: dogPictures.BlueHeeler,
-          description: "Example Description",
-          isFavorite: false,
-          name: "Cute Blue Heeler",
-        }}
-        key={1}
-        onTrashIconClick={() => {
-          alert("clicked trash");
-        }}
-        onHeartClick={() => {
-          alert("clicked heart");
-        }}
-        onEmptyHeartClick={() => {
-          alert("clicked empty heart");
-        }}
-        isLoading={false}
-      />
-      <DogCard
-        dog={{
-          id: 2,
-          image: dogPictures.Boxer,
-          description: "Example Description",
-          isFavorite: false,
-          name: "Cute Boxer",
-        }}
-        key={2}
-        onTrashIconClick={() => {
-          alert("clicked trash");
-        }}
-        onHeartClick={() => {
-          alert("clicked heart");
-        }}
-        onEmptyHeartClick={() => {
-          alert("clicked empty heart");
-        }}
-        isLoading={false}
-      />
-      <DogCard
-        dog={{
-          id: 3,
-          image: dogPictures.Chihuahua,
-          description: "Example Description",
-          isFavorite: false,
-          name: "Cute Chihuahua",
-        }}
-        key={3}
-        onTrashIconClick={() => {
-          alert("clicked trash");
-        }}
-        onHeartClick={() => {
-          alert("clicked heart");
-        }}
-        onEmptyHeartClick={() => {
-          alert("clicked empty heart");
-        }}
-        isLoading={false}
-      />
-      <DogCard
-        dog={{
-          id: 4,
-          image: dogPictures.Corgi,
-          description: "Example Description",
-          isFavorite: false,
-          name: "Cute Corgi",
-        }}
-        key={4}
-        onTrashIconClick={() => {
-          alert("clicked trash");
-        }}
-        onHeartClick={() => {
-          alert("clicked heart");
-        }}
-        onEmptyHeartClick={() => {
-          alert("clicked empty heart");
-        }}
-        isLoading={false}
-      />
+      <section className="dog-cards">
+        <FunctionalModifyDogModal
+          refetchAllDogs={refetchAllDogs}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          dogToModify={dogToModify}
+          setDogToModify={setDogToModify}
+        />
+        {allDogs?.sort(compare).map((dog) => {
+          const { id, image, description, isFavorite, name } = dog;
+          if (shouldDisplay(dog)) {
+            return (
+              <DogCard
+                dog={{
+                  id,
+                  image,
+                  description,
+                  isFavorite,
+                  name,
+                }}
+                key={id}
+                onTrashIconClick={() => {
+                  Requests.deleteDog(id)
+                    .then(() => refetchAllDogs())
+                    .catch((error) => console.log(error));
+                  alert(`You have successfully deleted ${name}.`);
+                }}
+                onHeartClick={() => {
+                  Requests.toggleFavorite(id, false)
+                    .then(() => refetchAllDogs())
+                    .catch((error) => console.log(error));
+                  alert(`You have removed ${name} from favorites.`);
+                }}
+                onEmptyHeartClick={() => {
+                  Requests.toggleFavorite(id, true)
+                    .then(() => refetchAllDogs())
+                    .catch((error) => console.log(error));
+                  alert(`You have added ${name} to favorites.`);
+                }}
+                isLoading={isLoading}
+                onModifyDogClick={() => {
+                  setDogToModify(dog);
+                }}
+              />
+            );
+          }
+        })}
+      </section>
     </>
   );
 };

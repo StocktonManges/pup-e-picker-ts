@@ -1,102 +1,11 @@
 {
   "dogs": [
     {
-      "name": "Wilber",
-      "image": "/assets/chihuahua.avif",
-      "description": "magenta boo colossal unpleasant seize Tactics Florida",
-      "isFavorite": true,
-      "id": 0
-    },
-    {
-      "name": "Roselyn",
-      "image": "/assets/chihuahua.avif",
-      "description": "Coupe South withdrawal Soft Latin lime Reggae chapter",
-      "isFavorite": true,
-      "id": 1
-    },
-    {
-      "name": "Antonia",
-      "image": "/assets/chihuahua.avif",
-      "description": "ampere Metal lavender Funk Fundamental payment wireless",
-      "isFavorite": true,
-      "id": 2
-    },
-    {
-      "name": "Shaina",
-      "image": "/assets/corgi.png",
-      "description": "Cotton male Refined Convertible auxiliary",
-      "isFavorite": true,
-      "id": 3
-    },
-    {
-      "name": "Dallin",
-      "image": "/assets/chihuahua.avif",
-      "description": "Directives Delaware why Response Diesel Kentucky blue cyan",
-      "isFavorite": true,
-      "id": 4
-    },
-    {
-      "name": "Efrain",
-      "image": "/assets/chihuahua.avif",
-      "description": "Electric Analyst Usability Mountain East Table female Lead",
-      "isFavorite": true,
-      "id": 5
-    },
-    {
-      "name": "Roy",
-      "image": "/assets/corgi.png",
-      "description": "male AGP copying Chair exercitationem",
-      "isFavorite": false,
-      "id": 6
-    },
-    {
-      "name": "Ellis",
-      "image": "/assets/cowardly.png",
-      "description": "Folk interface engage Classical Specialist Bicycle gold",
-      "isFavorite": false,
-      "id": 7
-    },
-    {
-      "name": "Velma",
-      "image": "/assets/boxer.png",
-      "description": "Diesel whether synthesize South Investment Zirconium farad",
-      "isFavorite": true,
-      "id": 8
-    },
-    {
-      "name": "Theodora",
-      "image": "/assets/dalmation.png",
-      "description": "Alaska Sedan digital empowering 1080p huzzah Bike Wooden",
-      "isFavorite": false,
-      "id": 9
-    },
-    {
-      "name": "Geovanny",
-      "image": "/assets/cowardly.png",
-      "description": "South North male Sports Gasoline",
-      "isFavorite": false,
-      "id": 10
-    },
-    {
-      "name": "Estevan",
-      "image": "/assets/dalmation.png",
-      "description": "Automotive Monitored circa violet Georgia",
-      "isFavorite": false,
-      "id": 11
-    },
-    {
       "name": "Estefania",
-      "image": "/assets/dalmation.png",
-      "description": "reboot facilis input management that overriding SMTP",
-      "isFavorite": true,
-      "id": 12
-    },
-    {
-      "name": "Myles",
-      "image": "/assets/blue-heeler.png",
-      "description": "Synchronised group sensor composite raw anenst navigate",
+      "description": "Edited by the modifying modal.\n",
+      "image": "/assets/chihuahua.avif",
       "isFavorite": false,
-      "id": 13
+      "id": 12
     },
     {
       "name": "Santiago",
@@ -106,46 +15,74 @@
       "id": 14
     },
     {
-      "name": "Oral",
-      "image": "/assets/chihuahua.avif",
+      "name": "Olivia",
       "description": "City Optimized Corporate Clothing Implemented Metal navigating Chair",
-      "isFavorite": false,
+      "image": "/assets/cowardly.png",
+      "isFavorite": true,
       "id": 15
     },
     {
       "name": "Anjali",
-      "image": "/assets/chihuahua.avif",
-      "description": "Bicycle canst nor henry RAM",
+      "description": "This is a voluptuous dog!",
+      "image": "/assets/dalmation.png",
       "isFavorite": false,
       "id": 16
     },
     {
-      "name": "Angelina",
-      "image": "/assets/blue-heeler.png",
-      "description": "Manager Sodium FTM maroon SSD Jewelery White bully",
-      "isFavorite": true,
-      "id": 17
-    },
-    {
-      "name": "Sandra",
-      "image": "/assets/boxer.png",
-      "description": "Lamborghini deposit disintermediate turquoise Martin",
+      "name": "Helga",
+      "image": "/assets/boxer.jpeg",
+      "description": "She's Russian and she knows it.",
       "isFavorite": false,
-      "id": 18
-    },
-    {
-      "name": "Yvette",
-      "image": "/assets/boxer.png",
-      "description": "distributed Sleek nest exploit Surinam compressing straight",
-      "isFavorite": true,
       "id": 19
     },
     {
-      "name": "asdfasdf",
-      "description": "asdfasdf",
-      "image": "/assets/blue-heeler.png",
+      "name": "Sammy",
+      "description": "His name is long so I just wrote his nickname.",
+      "image": "/assets/boxer.jpeg",
+      "isFavorite": true,
+      "id": 23
+    },
+    {
+      "name": "Landen",
+      "description": "He's kind of a player and a jerk.",
+      "image": "/assets/boxer.jpeg",
       "isFavorite": false,
-      "id": 20
+      "id": 25
+    },
+    {
+      "name": "Yermom",
+      "description": "She is incredibly lovable and she bakes great cakes!",
+      "image": "/assets/corgi.png",
+      "isFavorite": false,
+      "id": 26
+    },
+    {
+      "name": "Severous",
+      "description": "He's from Slitherine but he's still pretty awesome.",
+      "image": "/assets/chihuahua.avif",
+      "isFavorite": false,
+      "id": 27
+    },
+    {
+      "name": "Delilah",
+      "description": "She is sweet! She has my favorite name of all the names. I love her!",
+      "image": "/assets/cowardly.png",
+      "isFavorite": false,
+      "id": 28
+    },
+    {
+      "name": "Scorpio",
+      "description": "He doesn't have any special powers. He's kind of lame.",
+      "image": "/assets/corgi.png",
+      "isFavorite": true,
+      "id": 29
+    },
+    {
+      "name": "Qua-Keesha",
+      "description": "Yes, the double alliteration was on purpose. We like the letter \"Q\".",
+      "image": "/assets/dalmation.png",
+      "isFavorite": false,
+      "id": 30
     }
   ]
 }

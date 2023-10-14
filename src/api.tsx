@@ -1,19 +1,55 @@
+import { Dog, DogNoId } from "./types";
+
 export const baseUrl = "http://localhost:3000";
 
 export const Requests = {
-  // should return a promise with all dogs in the database
-  getAllDogs: () => {},
-  // should create a dog in the database from a partial dog object
-  // and return a promise with the result
-  postDog: () => {},
+  getAllDogs: (): Promise<Dog[] | null> =>
+    fetch(`${baseUrl}/dogs`)
+      .then((response) => response.json())
+      .catch((error) => console.log(error)),
 
-  // should delete a dog from the database
-  deleteDog: () => {},
+  postDog: (dog: DogNoId): Promise<DogNoId> => {
+    return fetch(`${baseUrl}/dogs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify(dog),
+    })
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
+  },
 
-  updateDog: () => {},
+  deleteDog: (id: Number) => {
+    return fetch(`${baseUrl}/dogs/${id}`, {
+      method: "DELETE",
+      redirect: "follow",
+    }).catch((error) => console.log("error", error));
+  },
 
-  // Just a dummy function for use in the playground
-  dummyFunction: () => {
-    console.log("dummy stuff");
+  updateDog: (
+    dog: Omit<Dog, "isFavorite">
+  ): Promise<Omit<Dog, "isFavorite">> => {
+    const { name, description, image, id } = dog;
+    return fetch(`${baseUrl}/dogs/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      body: JSON.stringify({
+        name,
+        description,
+        image,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
+  },
+
+  toggleFavorite: (id: number, moveToFavorites: boolean) => {
+    return fetch(`${baseUrl}/dogs/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isFavorite: moveToFavorites }),
+      redirect: "follow",
+    }).catch((error) => console.log(error));
   },
 };
