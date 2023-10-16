@@ -8,7 +8,9 @@ export type Dog = {
 
 export type GetAllDogsRequest = () => Promise<void>;
 
-export type SetIsLoading = (loadingState: boolean) => void;
+export type SetIsLoadingProp = (loadingState: boolean) => void;
+
+export type SetActiveFilterProp = (filterOption: FilterOptions) => void;
 
 export type FilterOptions =
   | "all dogs"

@@ -2,7 +2,13 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { FunctionalDogs } from "./FunctionalDogs";
-import { FilterOptions, Dog, GetAllDogsRequest, SetIsLoading } from "../types";
+import {
+  FilterOptions,
+  Dog,
+  GetAllDogsRequest,
+  SetIsLoadingProp,
+  SetActiveFilterProp,
+} from "../types";
 
 export const FunctionalSection = ({
   allDogs,
@@ -16,9 +22,9 @@ export const FunctionalSection = ({
   allDogs: Dog[] | null;
   refetchAllDogs: GetAllDogsRequest;
   activeFilter: FilterOptions;
-  setActiveFilter: (filterOption: FilterOptions) => void;
+  setActiveFilter: SetActiveFilterProp;
   isLoading: boolean;
-  setIsLoading: SetIsLoading;
+  setIsLoading: SetIsLoadingProp;
   children: ReactNode;
 }) => {
   const totalDogs = allDogs ? allDogs.length : 0;

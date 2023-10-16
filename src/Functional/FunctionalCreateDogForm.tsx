@@ -1,11 +1,11 @@
 import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
-import { DogNoId, SetIsLoading, GetAllDogsRequest } from "../types";
-import { useState } from "react";
+import { DogNoId, SetIsLoadingProp, GetAllDogsRequest } from "../types";
+import { useState, useRef } from "react";
 import ErrorBox from "../Shared/ErrorBox";
 import { Validations } from "../Shared/validations";
+import toast from "react-hot-toast";
 
-// use this as your default selected image
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
 export const FunctionalCreateDogForm = ({
@@ -15,15 +15,16 @@ export const FunctionalCreateDogForm = ({
 }: {
   refetchAllDogs: GetAllDogsRequest;
   isLoading: boolean;
-  setIsLoading: SetIsLoading;
+  setIsLoading: SetIsLoadingProp;
 }) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [createFormSubmitted, setCreateFormSubmitted] = useState(false);
   const [newDog, setNewDog] = useState<DogNoId>({
     name: "",
     description: "",
     image: defaultSelectedImage,
     isFavorite: false,
   });
+  const selectRef = useRef<HTMLSelectElement>(null);
   const { name, description, image, isFavorite } = newDog;
   const { nameValidations, descriptionValidations } = Validations;
   const descriptionIsValidArr: boolean[] = descriptionValidations.map(
@@ -38,11 +39,15 @@ export const FunctionalCreateDogForm = ({
           e.preventDefault();
           if (
             !descriptionIsValidArr.includes(false) &&
-            nameValidations.isValidFunc(name)
+            nameValidations.isValidFunc(name) &&
+            selectRef.current
           ) {
             setIsLoading(true);
             Requests.postDog(newDog)
               .then(() => refetchAllDogs())
+              .then(() => {
+                toast.success(`${name} created successfully!`);
+              })
               .catch((error) => console.log(error))
               .finally(() => setIsLoading(false));
             setNewDog({
@@ -51,12 +56,15 @@ export const FunctionalCreateDogForm = ({
               image: defaultSelectedImage,
               isFavorite: false,
             });
-            setIsSubmitted(false);
+            selectRef.current.value = defaultSelectedImage;
+            setCreateFormSubmitted(false);
           } else {
-            setIsSubmitted(true);
+            setCreateFormSubmitted(true);
           }
         }}
       >
+        {/* CONTINUE CLASS COPY HERE */}
+
         <h4>Create a New Dog</h4>
         <label htmlFor="name">Dog Name</label>
         <input
@@ -73,7 +81,7 @@ export const FunctionalCreateDogForm = ({
             });
           }}
         />
-        {nameValidations.isValidFunc(name) || !isSubmitted ? null : (
+        {nameValidations.isValidFunc(name) || !createFormSubmitted ? null : (
           <ErrorBox message={nameValidations.errorMessage} />
         )}
         <label htmlFor="description">Dog Description</label>
@@ -92,20 +100,22 @@ export const FunctionalCreateDogForm = ({
               isFavorite: false,
             })
           }
-        ></textarea>
+        />
         <div className="error-box-container">
-          {!isSubmitted
+          {!createFormSubmitted
             ? null
-            : descriptionValidations.map((validationObj) =>
+            : descriptionValidations.map((validationObj, i) =>
                 validationObj.isValidFunc(description) ? null : (
-                  <ErrorBox message={validationObj.errorMessage} />
+                  <ErrorBox message={validationObj.errorMessage} key={i} />
                 )
               )}
         </div>
         <label htmlFor="picture">Select an Image</label>
         <select
           id="picture"
+          ref={selectRef}
           name="picture"
+          defaultValue={defaultSelectedImage}
           disabled={isLoading}
           onChange={(e) =>
             setNewDog({
@@ -124,7 +134,7 @@ export const FunctionalCreateDogForm = ({
             );
           })}
         </select>
-        <input type="submit" disabled={isLoading} />
+        <input type="submit" value="submit" disabled={isLoading} />
       </form>
     </>
   );

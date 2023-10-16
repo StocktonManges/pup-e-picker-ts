@@ -4,6 +4,7 @@ import { Dog, GetAllDogsRequest } from "../types";
 import { useState } from "react";
 import ErrorBox from "../Shared/ErrorBox";
 import { Validations } from "../Shared/validations";
+import toast from "react-hot-toast";
 
 export const FunctionalModifyDogModal = ({
   refetchAllDogs,
@@ -18,7 +19,7 @@ export const FunctionalModifyDogModal = ({
   dogToModify: Dog | null;
   setDogToModify: (dog: Dog | null) => void;
 }) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [modifyFormSubmitted, setModifyFormSubmitted] = useState(false);
   let cancelled = false;
   if (dogToModify) {
     const { name, description, image, isFavorite, id } = dogToModify;
@@ -36,7 +37,7 @@ export const FunctionalModifyDogModal = ({
               e.preventDefault();
               if (cancelled) {
                 setDogToModify(null);
-                setIsSubmitted(false);
+                setModifyFormSubmitted(false);
               } else if (
                 !descriptionIsValidArr.includes(false) &&
                 nameValidations.isValidFunc(name)
@@ -44,12 +45,15 @@ export const FunctionalModifyDogModal = ({
                 setIsLoading(true);
                 Requests.updateDog({ name, description, image, id })
                   .then(() => refetchAllDogs())
+                  .then(() => {
+                    toast.success(`${name} edited successfully!`);
+                  })
                   .catch((error) => console.log(error))
                   .finally(() => setIsLoading(false));
-                setIsSubmitted(false);
+                setModifyFormSubmitted(false);
                 setDogToModify(null);
               } else {
-                setIsSubmitted(true);
+                setModifyFormSubmitted(true);
               }
             }}
           >
@@ -69,7 +73,8 @@ export const FunctionalModifyDogModal = ({
                 })
               }
             />
-            {nameValidations.isValidFunc(name) || !isSubmitted ? null : (
+            {nameValidations.isValidFunc(name) ||
+            !modifyFormSubmitted ? null : (
               <ErrorBox message={nameValidations.errorMessage} />
             )}
             <label htmlFor="description">Dog Description</label>
@@ -91,7 +96,7 @@ export const FunctionalModifyDogModal = ({
               }
             ></textarea>
             <div className="error-box-container">
-              {!isSubmitted
+              {!modifyFormSubmitted
                 ? null
                 : descriptionValidations.map((validationObj) =>
                     validationObj.isValidFunc(description) ? null : (

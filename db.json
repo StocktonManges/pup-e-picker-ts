@@ -2,8 +2,8 @@
   "dogs": [
     {
       "name": "Estefania",
-      "description": "Edited by the modifying modal.\n",
-      "image": "/assets/chihuahua.avif",
+      "description": "This description was edited using the modify dog modal.",
+      "image": "/assets/dalmation.png",
       "isFavorite": false,
       "id": 12
     },
@@ -39,7 +39,7 @@
       "name": "Sammy",
       "description": "His name is long so I just wrote his nickname.",
       "image": "/assets/boxer.jpeg",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 23
     },
     {
@@ -48,13 +48,6 @@
       "image": "/assets/boxer.jpeg",
       "isFavorite": false,
       "id": 25
-    },
-    {
-      "name": "Yermom",
-      "description": "She is incredibly lovable and she bakes great cakes!",
-      "image": "/assets/corgi.png",
-      "isFavorite": false,
-      "id": 26
     },
     {
       "name": "Severous",
@@ -67,7 +60,7 @@
       "name": "Delilah",
       "description": "She is sweet! She has my favorite name of all the names. I love her!",
       "image": "/assets/cowardly.png",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 28
     },
     {
@@ -83,6 +76,55 @@
       "image": "/assets/dalmation.png",
       "isFavorite": false,
       "id": 30
+    },
+    {
+      "name": "Yermom3000",
+      "description": "This is an immature dog that doesn't know the line for 'your mom' jokes.",
+      "image": "/assets/cowardly.png",
+      "isFavorite": false,
+      "id": 31
+    },
+    {
+      "name": "Killian",
+      "description": "This dog was named after a dead cat.",
+      "image": "/assets/blue-heeler.png",
+      "isFavorite": false,
+      "id": 32
+    },
+    {
+      "name": "Cordelia",
+      "description": "Something about this dog makes me feel not comfortable.",
+      "image": "/assets/corgi.png",
+      "isFavorite": false,
+      "id": 33
+    },
+    {
+      "name": "Blubber",
+      "description": "She's sooooo fat!",
+      "image": "/assets/chihuahua.avif",
+      "isFavorite": false,
+      "id": 34
+    },
+    {
+      "name": "Maleficient",
+      "description": "She's so evil it's not even funny.",
+      "image": "/assets/corgi.png",
+      "isFavorite": false,
+      "id": 35
+    },
+    {
+      "name": "Hayes",
+      "description": "He's a cutie pie and I wouldn't trade him for the world!",
+      "image": "/assets/boxer.jpeg",
+      "isFavorite": false,
+      "id": 36
+    },
+    {
+      "name": "Reese's",
+      "description": "I love chocolate so I named this dog after my favorite chocolate.",
+      "image": "/assets/corgi.png",
+      "isFavorite": false,
+      "id": 37
     }
   ]
 }

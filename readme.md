@@ -40,12 +40,12 @@ To get this project setup, you should:
 
 ## Standard Requirements
 
-- [x] Setup eslint
+- [ ] Setup eslint
 - [ ] Pass all linting checks
 
 - To check if linting passes, run `npm run lint`
 
-- [x] Format code with prettier
+- [ ] Format code with prettier
 - [ ] State should not be duplicated
 - [ ] Variables should be named logically
 - [ ] No unnecessary console logs
@@ -80,8 +80,8 @@ Note: It's not a perfect mapping to what you're going to build, below highlights
 
 - [x] place `FunctionalDogs` inside of the `.content-container` div of the `FunctionalSection` component **using React Children**
 - [x] place `FunctionalCreateDogForm` inside of the `.content-container` div of the `FunctionalSection` component **using React Children**
-- [ ] place `ClassDogs` inside of the `.content-container` div of the `ClassSection` component **using React Children**
-- [ ] place `ClassCreateDogForm` inside of the `.content-container` div of the `ClassSection` component **using React Children**
+- [x] place `ClassDogs` inside of the `.content-container` div of the `ClassSection` component **using React Children**
+- [x] place `ClassCreateDogForm` inside of the `.content-container` div of the `ClassSection` component **using React Children**
 
 ## Navigation
 
@@ -162,4 +162,4 @@ If the data is still loading then...
 - [x] If you navigate to the `favorited` tab, you should NOT see the new dog in the list of dogs
 - [x] If you navigate to the `unfavorited` tab, you should see the new dog in the list of dogs
 - [x] After the submission the form should be cleared, and the select should return to the default
-- [ ] After submitting, a toast notification from `react-hot-toast` should appear saying "Dog Created"
+- [x] After submitting, a toast notification from `react-hot-toast` should appear saying "Dog Created"

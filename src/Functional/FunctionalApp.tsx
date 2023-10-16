@@ -40,9 +40,7 @@ export function FunctionalApp() {
             isLoading={isLoading}
             setIsLoading={setIsLoading}
           />
-        ) : (
-          <div></div>
-        )}
+        ) : null}
       </FunctionalSection>
     </div>
   );

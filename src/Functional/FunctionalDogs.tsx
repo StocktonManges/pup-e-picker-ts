@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { DogCard } from "../Shared/DogCard";
 import { Requests } from "../api";
-import { FilterOptions, Dog, SetIsLoading, GetAllDogsRequest } from "../types";
+import {
+  FilterOptions,
+  Dog,
+  SetIsLoadingProp,
+  GetAllDogsRequest,
+} from "../types";
 import { FunctionalModifyDogModal } from "./FunctionalModifyDogModal";
+import toast from "react-hot-toast";
 
 export const FunctionalDogs = ({
   allDogs,
@@ -15,14 +21,14 @@ export const FunctionalDogs = ({
   refetchAllDogs: GetAllDogsRequest;
   activeFilter: FilterOptions;
   isLoading: boolean;
-  setIsLoading: SetIsLoading;
+  setIsLoading: SetIsLoadingProp;
 }) => {
   const [dogToModify, setDogToModify] = useState<Dog | null>(null);
-  const shouldDisplay = (dog: Dog): boolean => {
+  const shouldDisplay = (dogIsFavorite: Dog["isFavorite"]): boolean => {
     if (activeFilter === "fav dogs") {
-      return dog.isFavorite;
+      return dogIsFavorite;
     } else if (activeFilter === "unfav dogs") {
-      return !dog.isFavorite;
+      return !dogIsFavorite;
     } else if (activeFilter === "all dogs") {
       return true;
     }
@@ -52,7 +58,7 @@ export const FunctionalDogs = ({
         />
         {allDogs?.sort(compare).map((dog) => {
           const { id, image, description, isFavorite, name } = dog;
-          if (shouldDisplay(dog)) {
+          if (shouldDisplay(isFavorite)) {
             return (
               <DogCard
                 dog={{
@@ -66,20 +72,26 @@ export const FunctionalDogs = ({
                 onTrashIconClick={() => {
                   Requests.deleteDog(id)
                     .then(() => refetchAllDogs())
+                    .then(() => {
+                      toast.success(`You have successfully deleted ${name}.`);
+                    })
                     .catch((error) => console.log(error));
-                  alert(`You have successfully deleted ${name}.`);
                 }}
                 onHeartClick={() => {
                   Requests.toggleFavorite(id, false)
                     .then(() => refetchAllDogs())
+                    .then(() => {
+                      toast.success(`You have removed ${name} from favorites.`);
+                    })
                     .catch((error) => console.log(error));
-                  alert(`You have removed ${name} from favorites.`);
                 }}
                 onEmptyHeartClick={() => {
                   Requests.toggleFavorite(id, true)
                     .then(() => refetchAllDogs())
+                    .then(() => {
+                      toast.success(`You have added ${name} to favorites.`);
+                    })
                     .catch((error) => console.log(error));
-                  alert(`You have added ${name} to favorites.`);
                 }}
                 isLoading={isLoading}
                 onModifyDogClick={() => {

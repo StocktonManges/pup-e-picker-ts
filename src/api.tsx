@@ -26,9 +26,7 @@ export const Requests = {
     }).catch((error) => console.log("error", error));
   },
 
-  updateDog: (
-    dog: Omit<Dog, "isFavorite">
-  ): Promise<Omit<Dog, "isFavorite">> => {
+  updateDog: (dog: Omit<Dog, "isFavorite">): Promise<Dog> => {
     const { name, description, image, id } = dog;
     return fetch(`${baseUrl}/dogs/${id}`, {
       method: "PATCH",
