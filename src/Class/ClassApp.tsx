@@ -34,11 +34,11 @@ export class ClassApp extends Component<Record<string, never>, State> {
       .then(() => {
         toast.success(`${newDog.name} created successfully!`);
       })
-      .catch((error) => console.log(error))
-      .finally(() => this.setState({ isLoading: false }));
+      .catch((error) => console.log(error));
   };
 
   deleteDog = (dog: Dog) => {
+    this.setState({ isLoading: true });
     Requests.deleteDog(dog.id)
       .then(() => this.refetchAllDogs())
       .then(() => {
@@ -48,6 +48,7 @@ export class ClassApp extends Component<Record<string, never>, State> {
   };
 
   favoriteDog = (dog: Dog) => {
+    this.setState({ isLoading: true });
     Requests.toggleFavorite(dog.id, true)
       .then(() => this.refetchAllDogs())
       .then(() => {
@@ -57,6 +58,7 @@ export class ClassApp extends Component<Record<string, never>, State> {
   };
 
   unfavoriteDog = (dog: Dog) => {
+    this.setState({ isLoading: true });
     Requests.toggleFavorite(dog.id, false)
       .then(() => this.refetchAllDogs())
       .then(() => {

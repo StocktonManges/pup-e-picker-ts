@@ -32,7 +32,7 @@
       "name": "Helga",
       "image": "/assets/boxer.jpeg",
       "description": "She's Russian and she knows it.",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 19
     },
     {
@@ -60,7 +60,7 @@
       "name": "Delilah",
       "description": "She is sweet! She has my favorite name of all the names. I love her!",
       "image": "/assets/cowardly.png",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 28
     },
     {
@@ -153,6 +153,20 @@
       "image": "/assets/cowardly.png",
       "isFavorite": false,
       "id": 41
+    },
+    {
+      "name": "Lupen",
+      "description": "He's a professor at Hogwarts.",
+      "image": "/assets/dalmation.png",
+      "isFavorite": true,
+      "id": 42
+    },
+    {
+      "name": "Steven Strange",
+      "description": "He knows how to use magic!",
+      "image": "/assets/corgi.png",
+      "isFavorite": true,
+      "id": 43
     }
   ]
 }

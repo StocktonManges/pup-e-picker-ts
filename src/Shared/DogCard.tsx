@@ -12,6 +12,7 @@ export const DogCard = ({
   onHeartClick,
   isLoading,
   onModifyDogClick,
+  key,
 }: {
   dog: Dog;
   onTrashIconClick: () => void;
@@ -19,9 +20,10 @@ export const DogCard = ({
   onHeartClick: () => void;
   isLoading: boolean;
   onModifyDogClick: () => void;
+  key: number;
 }) => {
   return (
-    <div className="dog-card">
+    <div className="dog-card" key={key}>
       {/* Choose which button to show depending on if dog is a favorite */}
       {isFavorite ? (
         <UnfavoriteButton

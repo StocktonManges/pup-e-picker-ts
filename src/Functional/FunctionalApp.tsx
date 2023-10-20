@@ -26,11 +26,11 @@ export function FunctionalApp() {
       .then(() => {
         toast.success(`${newDog.name} created successfully!`);
       })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+      .catch((error) => console.log(error));
   };
 
   const deleteDog = (dog: Dog) => {
+    setIsLoading(true);
     Requests.deleteDog(dog.id)
       .then(() => refetchAllDogs())
       .then(() => {
@@ -40,6 +40,7 @@ export function FunctionalApp() {
   };
 
   const favoriteDog = (dog: Dog) => {
+    setIsLoading(true);
     Requests.toggleFavorite(dog.id, true)
       .then(() => refetchAllDogs())
       .then(() => {
@@ -49,6 +50,7 @@ export function FunctionalApp() {
   };
 
   const unfavoriteDog = (dog: Dog) => {
+    setIsLoading(true);
     Requests.toggleFavorite(dog.id, false)
       .then(() => refetchAllDogs())
       .then(() => {
