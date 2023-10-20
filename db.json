@@ -4,7 +4,7 @@
       "name": "Estefania",
       "description": "This description was edited using the modify dog modal.",
       "image": "/assets/dalmation.png",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 12
     },
     {
@@ -46,7 +46,7 @@
       "name": "Landen",
       "description": "He's kind of a player and a jerk.",
       "image": "/assets/boxer.jpeg",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 25
     },
     {
@@ -95,12 +95,12 @@
       "name": "Cordelia",
       "description": "Something about this dog makes me feel not comfortable.",
       "image": "/assets/corgi.png",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 33
     },
     {
       "name": "Blubber",
-      "description": "She's sooooo fat!",
+      "description": "She's fat!",
       "image": "/assets/chihuahua.avif",
       "isFavorite": false,
       "id": 34
@@ -125,6 +125,34 @@
       "image": "/assets/corgi.png",
       "isFavorite": false,
       "id": 37
+    },
+    {
+      "name": "Jamaya",
+      "description": "He's a ninja hound.",
+      "image": "/assets/blue-heeler.png",
+      "isFavorite": true,
+      "id": 38
+    },
+    {
+      "name": "Jairamaya",
+      "description": "He knows how to use the rasengan.",
+      "image": "/assets/boxer.jpeg",
+      "isFavorite": false,
+      "id": 39
+    },
+    {
+      "name": "Jennifer",
+      "description": "Whatever she wants she gets.",
+      "image": "/assets/chihuahua.avif",
+      "isFavorite": false,
+      "id": 40
+    },
+    {
+      "name": "Sampson",
+      "description": "He's annoying as crap.",
+      "image": "/assets/cowardly.png",
+      "isFavorite": false,
+      "id": 41
     }
   ]
 }

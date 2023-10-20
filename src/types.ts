@@ -12,10 +12,6 @@ export type SetIsLoadingProp = (loadingState: boolean) => void;
 
 export type SetActiveFilterProp = (filterOption: FilterOptions) => void;
 
-export type FilterOptions =
-  | "all dogs"
-  | "fav dogs"
-  | "unfav dogs"
-  | "create dog";
+export type FilterOptions = "all" | "favorite" | "non-favorite" | "create";
 
 export type DogNoId = Omit<Dog, "id">;

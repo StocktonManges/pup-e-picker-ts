@@ -1,47 +1,27 @@
 // you can use `ReactNode` to add a type to the children prop
 import { Component, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import {
-  Dog,
-  FilterOptions,
-  GetAllDogsRequest,
-  SetActiveFilterProp,
-  SetIsLoadingProp,
-} from "../types";
-import { ClassDogs } from "./ClassDogs";
+import { Dog, FilterOptions, SetActiveFilterProp } from "../types";
 
 export class ClassSection extends Component<{
-  allDogs: Dog[] | null;
-  refetchAllDogs: GetAllDogsRequest;
+  allDogs: Dog[];
   activeFilter: FilterOptions;
   setActiveFilter: SetActiveFilterProp;
-  isLoading: boolean;
-  setIsLoading: SetIsLoadingProp;
   children: ReactNode;
 }> {
   render() {
-    const {
-      allDogs,
-      refetchAllDogs,
-      activeFilter,
-      setActiveFilter,
-      isLoading,
-      setIsLoading,
-      children,
-    } = this.props;
+    const { allDogs, activeFilter, setActiveFilter, children } = this.props;
 
-    const totalDogs = allDogs ? allDogs.length : 0;
-    const totalFavs = allDogs
-      ? allDogs.reduce((acc, curr) => (curr.isFavorite ? acc + 1 : acc), 0)
-      : 0;
-    const totalNotFavs = totalDogs - totalFavs;
+    const totalDogs = allDogs.length;
+    const totalFavs = allDogs.reduce(
+      (acc, curr) => (curr.isFavorite ? acc + 1 : acc),
+      0
+    );
+    const totalNonFavs = totalDogs - totalFavs;
 
-    const updateActiveFilter = (
-      classList: DOMTokenList,
-      filterOption: FilterOptions
-    ) => {
-      Array.from(classList).includes("active")
-        ? setActiveFilter("all dogs")
+    const updateActiveFilter = (filterOption: FilterOptions) => {
+      filterOption === activeFilter
+        ? setActiveFilter("all")
         : setActiveFilter(filterOption);
     };
 
@@ -55,13 +35,10 @@ export class ClassSection extends Component<{
           <div className="selectors">
             <div
               className={
-                activeFilter === "fav dogs" ? "selector active" : "selector"
+                activeFilter === "favorite" ? "selector active" : "selector"
               }
-              onClick={(e) => {
-                updateActiveFilter(
-                  (e.target as HTMLDivElement).classList,
-                  "fav dogs"
-                );
+              onClick={() => {
+                updateActiveFilter("favorite");
               }}
             >
               favorited ( {totalFavs} )
@@ -70,42 +47,27 @@ export class ClassSection extends Component<{
             {/* This should display the unfavorited count */}
             <div
               className={
-                activeFilter === "unfav dogs" ? "selector active" : "selector"
+                activeFilter === "non-favorite" ? "selector active" : "selector"
               }
-              onClick={(e) => {
-                updateActiveFilter(
-                  (e.target as HTMLDivElement).classList,
-                  "unfav dogs"
-                );
+              onClick={() => {
+                updateActiveFilter("non-favorite");
               }}
             >
-              unfavorited ( {totalNotFavs} )
+              unfavorited ( {totalNonFavs} )
             </div>
             <div
               className={
-                activeFilter === "create dog" ? "selector active" : "selector"
+                activeFilter === "create" ? "selector active" : "selector"
               }
-              onClick={(e) => {
-                updateActiveFilter(
-                  (e.target as HTMLDivElement).classList,
-                  "create dog"
-                );
+              onClick={() => {
+                updateActiveFilter("create");
               }}
             >
               create dog
             </div>
           </div>
         </div>
-        <div className="content-container">
-          <ClassDogs
-            allDogs={allDogs}
-            refetchAllDogs={refetchAllDogs}
-            activeFilter={activeFilter}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-          />
-          {children}
-        </div>
+        <div className="content-container">{children}</div>
       </section>
     );
   }

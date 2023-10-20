@@ -3,27 +3,36 @@ import { Dog, DogNoId } from "./types";
 export const baseUrl = "http://localhost:3000";
 
 export const Requests = {
-  getAllDogs: (): Promise<Dog[] | null> =>
-    fetch(`${baseUrl}/dogs`)
-      .then((response) => response.json())
-      .catch((error) => console.log(error)),
+  getAllDogs: (): Promise<Dog[]> =>
+    fetch(`${baseUrl}/dogs`).then((response) => {
+      if (!response.ok) {
+        throw new Error("Unable to fetch all dogs.");
+      }
+      return response.json();
+    }),
 
-  postDog: (dog: DogNoId): Promise<DogNoId> => {
+  postDog: (dog: DogNoId): Promise<Dog> => {
     return fetch(`${baseUrl}/dogs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      redirect: "follow",
       body: JSON.stringify(dog),
-    })
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Unable to post dog: ${dog.name}.`);
+      }
+      return response.json();
+    });
   },
 
-  deleteDog: (id: Number) => {
+  deleteDog: (id: number) => {
     return fetch(`${baseUrl}/dogs/${id}`, {
       method: "DELETE",
-      redirect: "follow",
-    }).catch((error) => console.log("error", error));
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Unable to delete dog: ${id}.`);
+      }
+      return response.json();
+    });
   },
 
   updateDog: (dog: Omit<Dog, "isFavorite">): Promise<Dog> => {
@@ -31,15 +40,17 @@ export const Requests = {
     return fetch(`${baseUrl}/dogs/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      redirect: "follow",
       body: JSON.stringify({
         name,
         description,
         image,
       }),
-    })
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Unable to update dog: ${dog.id}.`);
+      }
+      return response.json();
+    });
   },
 
   toggleFavorite: (id: number, moveToFavorites: boolean) => {
@@ -47,7 +58,13 @@ export const Requests = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isFavorite: moveToFavorites }),
-      redirect: "follow",
-    }).catch((error) => console.log(error));
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(
+          `Unable to toggle 'isFavorite' attribute on dog: ${id}.`
+        );
+      }
+      return response.json();
+    });
   },
 };

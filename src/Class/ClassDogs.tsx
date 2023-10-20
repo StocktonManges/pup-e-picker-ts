@@ -6,21 +6,34 @@ import {
   GetAllDogsRequest,
   SetIsLoadingProp,
 } from "../types";
-import { Requests } from "../api";
-import toast from "react-hot-toast";
 import { ClassModifyDogModal } from "./ClassModifyDogModal";
 
 type State = {
   dogToModify: Dog | null;
 };
 
+const compareDogsByName = (a: Dog, b: Dog) => {
+  const nameA = a.name.toUpperCase();
+  const nameB = b.name.toUpperCase();
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+};
+
 export class ClassDogs extends Component<
   {
-    allDogs: Dog[] | null;
+    allDogs: Dog[];
     refetchAllDogs: GetAllDogsRequest;
     activeFilter: FilterOptions;
     isLoading: boolean;
     setIsLoading: SetIsLoadingProp;
+    deleteDog: (dog: Dog) => void;
+    unfavoriteDog: (dog: Dog) => void;
+    favoriteDog: (dog: Dog) => void;
   },
   State
 > {
@@ -28,28 +41,25 @@ export class ClassDogs extends Component<
     dogToModify: null,
   };
   render() {
-    const { allDogs, refetchAllDogs, activeFilter, isLoading, setIsLoading } =
-      this.props;
+    const {
+      allDogs,
+      refetchAllDogs,
+      activeFilter,
+      isLoading,
+      setIsLoading,
+      deleteDog,
+      unfavoriteDog,
+      favoriteDog,
+    } = this.props;
     const shouldDisplay = (dogIsFavorite: Dog["isFavorite"]): boolean => {
-      if (activeFilter === "fav dogs") {
+      if (activeFilter === "favorite") {
         return dogIsFavorite;
-      } else if (activeFilter === "unfav dogs") {
+      } else if (activeFilter === "non-favorite") {
         return !dogIsFavorite;
-      } else if (activeFilter === "all dogs") {
+      } else if (activeFilter === "all") {
         return true;
       }
       return false;
-    };
-    const compare = (a: Dog, b: Dog) => {
-      const nameA = a.name.toUpperCase();
-      const nameB = b.name.toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
     };
 
     return (
@@ -64,52 +74,36 @@ export class ClassDogs extends Component<
               this.setState({ dogToModify: modifiedDog });
             }}
           />
-          {allDogs?.sort(compare).map((dog) => {
+          {allDogs.sort(compareDogsByName).map((dog) => {
             const { id, image, description, isFavorite, name } = dog;
-            if (shouldDisplay(isFavorite)) {
-              return (
-                <DogCard
-                  dog={{
-                    id,
-                    image,
-                    description,
-                    isFavorite,
-                    name,
-                  }}
-                  key={id}
-                  onTrashIconClick={() => {
-                    Requests.deleteDog(id)
-                      .then(() => refetchAllDogs())
-                      .then(() => {
-                        toast.success(`You have successfully deleted ${name}.`);
-                      })
-                      .catch((error) => console.log(error));
-                  }}
-                  onHeartClick={() => {
-                    Requests.toggleFavorite(id, false)
-                      .then(() => refetchAllDogs())
-                      .then(() => {
-                        toast.success(
-                          `You have removed ${name} from favorites.`
-                        );
-                      })
-                      .catch((error) => console.log(error));
-                  }}
-                  onEmptyHeartClick={() => {
-                    Requests.toggleFavorite(id, true)
-                      .then(() => refetchAllDogs())
-                      .then(() => {
-                        toast.success(`You have added ${name} to favorites.`);
-                      })
-                      .catch((error) => console.log(error));
-                  }}
-                  isLoading={isLoading}
-                  onModifyDogClick={() => {
-                    this.setState({ dogToModify: dog });
-                  }}
-                />
-              );
+            if (!shouldDisplay(isFavorite)) {
+              return <></>;
             }
+            return (
+              <DogCard
+                dog={{
+                  id,
+                  image,
+                  description,
+                  isFavorite,
+                  name,
+                }}
+                key={id}
+                onTrashIconClick={() => {
+                  deleteDog(dog);
+                }}
+                onHeartClick={() => {
+                  unfavoriteDog(dog);
+                }}
+                onEmptyHeartClick={() => {
+                  favoriteDog(dog);
+                }}
+                isLoading={isLoading}
+                onModifyDogClick={() => {
+                  this.setState({ dogToModify: dog });
+                }}
+              />
+            );
           })}
         </section>
       </>

@@ -1,9 +1,7 @@
-import { Component, createRef } from "react";
+import { Component } from "react";
 import { dogPictures } from "../dog-pictures";
-import { DogNoId, GetAllDogsRequest, SetIsLoadingProp } from "../types";
+import { DogNoId } from "../types";
 import { Validations } from "../Shared/validations";
-import { Requests } from "../api";
-import toast from "react-hot-toast";
 import ErrorBox from "../Shared/ErrorBox";
 
 type State = {
@@ -14,9 +12,8 @@ type State = {
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
 export class ClassCreateDogForm extends Component<{
-  refetchAllDogs: GetAllDogsRequest;
+  postDog: (newDog: DogNoId) => unknown;
   isLoading: boolean;
-  setIsLoading: SetIsLoadingProp;
 }> {
   state: State = {
     createFormSubmitted: false,
@@ -28,13 +25,23 @@ export class ClassCreateDogForm extends Component<{
     },
   };
   render() {
-    const selectRef = createRef<HTMLSelectElement>();
-    const { refetchAllDogs, isLoading, setIsLoading } = this.props;
+    const { isLoading, postDog } = this.props;
     const { name, description, image, isFavorite } = this.state.newDog;
     const { nameValidations, descriptionValidations } = Validations;
     const descriptionIsValidArr: boolean[] = descriptionValidations.map(
       (validationObj) => validationObj.isValidFunc(description)
     );
+
+    const resetNewDog = () => {
+      this.setState({
+        newDog: {
+          name: "",
+          description: "",
+          image: defaultSelectedImage,
+          isFavorite: false,
+        },
+      });
+    };
     return (
       <form
         action=""
@@ -42,31 +49,14 @@ export class ClassCreateDogForm extends Component<{
         onSubmit={(e) => {
           e.preventDefault();
           if (
-            !descriptionIsValidArr.includes(false) &&
-            nameValidations.isValidFunc(name) &&
-            selectRef.current
+            !descriptionIsValidArr.every((el) => el) &&
+            !nameValidations.isValidFunc(name)
           ) {
-            setIsLoading(true);
-            Requests.postDog(this.state.newDog)
-              .then(() => refetchAllDogs())
-              .then(() => {
-                toast.success(`${name} created successfully!`);
-              })
-              .catch((error) => console.log(error))
-              .finally(() => setIsLoading(false));
-            this.setState({
-              newDog: {
-                name: "",
-                description: "",
-                image: defaultSelectedImage,
-                isFavorite: false,
-              },
-            });
-            selectRef.current.value = defaultSelectedImage;
-            this.setState({ isSubmitted: false });
-          } else {
-            this.setState({ isSubmitted: true });
+            return this.setState({ isSubmitted: true });
           }
+          postDog(this.state.newDog);
+          resetNewDog();
+          this.setState({ isSubmitted: false });
         }}
       >
         <h4>Create a New Dog</h4>
@@ -122,9 +112,8 @@ export class ClassCreateDogForm extends Component<{
         <label htmlFor="picture">Select an Image</label>
         <select
           id="picture"
-          ref={selectRef}
           name="picture"
-          defaultValue={defaultSelectedImage}
+          value={image}
           onChange={(e) =>
             this.setState({
               newDog: {

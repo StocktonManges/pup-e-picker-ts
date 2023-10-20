@@ -19,9 +19,9 @@ export const Validations: ValidationsObj = {
     {
       isValidFunc: (dogDescription) => {
         const matches = dogDescription.match(/\s\w/g)?.length;
-        return matches ? matches >= 2 : false;
+        return matches ? matches >= 1 : false;
       },
-      errorMessage: "The description must have 3 or more words.",
+      errorMessage: "The description must have 2 or more words.",
     },
 
     {

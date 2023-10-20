@@ -1,21 +1,17 @@
 import { dogPictures } from "../dog-pictures";
-import { Requests } from "../api";
-import { DogNoId, SetIsLoadingProp, GetAllDogsRequest } from "../types";
-import { useState, useRef } from "react";
+import { DogNoId } from "../types";
+import { useState } from "react";
 import ErrorBox from "../Shared/ErrorBox";
 import { Validations } from "../Shared/validations";
-import toast from "react-hot-toast";
 
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
 export const FunctionalCreateDogForm = ({
-  refetchAllDogs,
+  postDog,
   isLoading,
-  setIsLoading,
 }: {
-  refetchAllDogs: GetAllDogsRequest;
+  postDog: (newDog: DogNoId) => unknown;
   isLoading: boolean;
-  setIsLoading: SetIsLoadingProp;
 }) => {
   const [createFormSubmitted, setCreateFormSubmitted] = useState(false);
   const [newDog, setNewDog] = useState<DogNoId>({
@@ -24,12 +20,20 @@ export const FunctionalCreateDogForm = ({
     image: defaultSelectedImage,
     isFavorite: false,
   });
-  const selectRef = useRef<HTMLSelectElement>(null);
   const { name, description, image, isFavorite } = newDog;
   const { nameValidations, descriptionValidations } = Validations;
   const descriptionIsValidArr: boolean[] = descriptionValidations.map(
     (validationObj) => validationObj.isValidFunc(description)
   );
+
+  const resetNewDog = () => {
+    setNewDog({
+      name: "",
+      description: "",
+      image: defaultSelectedImage,
+      isFavorite: false,
+    });
+  };
 
   return (
     <>
@@ -38,33 +42,16 @@ export const FunctionalCreateDogForm = ({
         onSubmit={(e) => {
           e.preventDefault();
           if (
-            !descriptionIsValidArr.includes(false) &&
-            nameValidations.isValidFunc(name) &&
-            selectRef.current
+            !descriptionIsValidArr.every((el) => el) &&
+            !nameValidations.isValidFunc(name)
           ) {
-            setIsLoading(true);
-            Requests.postDog(newDog)
-              .then(() => refetchAllDogs())
-              .then(() => {
-                toast.success(`${name} created successfully!`);
-              })
-              .catch((error) => console.log(error))
-              .finally(() => setIsLoading(false));
-            setNewDog({
-              name: "",
-              description: "",
-              image: defaultSelectedImage,
-              isFavorite: false,
-            });
-            selectRef.current.value = defaultSelectedImage;
-            setCreateFormSubmitted(false);
-          } else {
-            setCreateFormSubmitted(true);
+            return setCreateFormSubmitted(true);
           }
+          postDog(newDog);
+          resetNewDog();
+          setCreateFormSubmitted(false);
         }}
       >
-        {/* CONTINUE CLASS COPY HERE */}
-
         <h4>Create a New Dog</h4>
         <label htmlFor="name">Dog Name</label>
         <input
@@ -113,10 +100,9 @@ export const FunctionalCreateDogForm = ({
         <label htmlFor="picture">Select an Image</label>
         <select
           id="picture"
-          ref={selectRef}
           name="picture"
-          defaultValue={defaultSelectedImage}
           disabled={isLoading}
+          value={image}
           onChange={(e) =>
             setNewDog({
               name,

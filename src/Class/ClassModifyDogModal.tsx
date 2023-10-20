@@ -50,7 +50,7 @@ export class ClassModifyDogModal extends Component<
                   setDogToModify(null);
                   this.setState({ modifyFormSubmitted: false });
                 } else if (
-                  !descriptionIsValidArr.includes(false) &&
+                  descriptionIsValidArr.every((el) => el) &&
                   nameValidations.isValidFunc(name)
                 ) {
                   setIsLoading(true);

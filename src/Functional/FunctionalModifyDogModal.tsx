@@ -39,7 +39,7 @@ export const FunctionalModifyDogModal = ({
                 setDogToModify(null);
                 setModifyFormSubmitted(false);
               } else if (
-                !descriptionIsValidArr.includes(false) &&
+                descriptionIsValidArr.every((el) => el) &&
                 nameValidations.isValidFunc(name)
               ) {
                 setIsLoading(true);
